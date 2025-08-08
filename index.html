@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>FGO 必要ATK逆算（%入力・単発）</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 24px auto; padding: 0 12px; }
+    label { display:block; margin:10px 0 4px; }
+    input, select { padding: 6px; }
+    .row { display:flex; gap:24px; flex-wrap: wrap; }
+    .card { border:1px solid #ddd; border-radius:10px; padding:12px; flex:1 1 280px; }
+    .result { margin-top: 16px; font-weight: bold; }
+    small { color:#666; }
+  </style>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>FGO 必要ATK逆算（%入力・単発）</h1>
+
+  <!-- タブ -->
+  <div id="tabs" style="display:flex; gap:12px; margin:12px 0;">
+    <button id="tab-crit"  type="button" data-tab="crit"  style="padding:6px 10px; border:1px solid #888; border-radius:8px; font-weight:bold;">クリ専用</button>
+    <button id="tab-np"    type="button" data-tab="np"    style="padding:6px 10px; border:1px solid #888; border-radius:8px;">宝具専用</button>
+  </div>
+
+  <!-- クリ専用 -->
+  <div id="panel-crit" class="card">
+    <h3>クリ専用（通常攻撃）</h3>
+    <label for="card_type_crit">カード色</label>
+    <select id="card_type_crit">
+      <option value="B">Buster</option>
+      <option value="A">Arts</option>
+      <option value="Q">Quick</option>
+    </select>
+
+    <label>クリティカル固定（常にON）</label>
+    <input type="checkbox" id="is_crit_crit" checked disabled>
+
+    <label for="crit_dmg_crit">クリ威力（%）</label>
+    <input id="crit_dmg_crit" type="number" value="0" step="10">
+  </div>
+
+  <!-- 宝具専用 -->
+  <div id="panel-np" class="card" style="display:none;">
+    <h3>宝具専用</h3>
+    <label for="card_type_np">カード色</label>
+    <select id="card_type_np">
+      <option value="B">Buster</option>
+      <option value="A">Arts</option>
+      <option value="Q">Quick</option>
+    </select>
+
+    <label for="np_mv_pct_np">宝具倍率（%）例: 550</label>
+    <input id="np_mv_pct_np" type="number" value="550">
+
+    <label for="np_dmg_np">宝具威力（%）</label>
+    <input id="np_dmg_np" type="number" value="0" step="10">
+
+    <label for="trait_np_pct_np">宝具特攻倍率（%）例: 100=等倍</label>
+    <input id="trait_np_pct_np" type="number" value="100" step="10">
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <h3>目標と加算</h3>
+      <label for="target_damage">目標ダメージ</label>
+      <input id="target_damage" type="number" value="200000">
+      <label for="fixed_damage">固定ダメージ合計（Bチェイン等）</label>
+      <input id="fixed_damage" type="number" value="0">
+      <label for="ce_atk">礼装ATK</label>
+      <input id="ce_atk" type="number" value="0">
+      <label for="footprint">足跡火力UP</label>
+      <input id="footprint" type="number" value="0" step="10">
+
+      <label for="rand_mode">乱数</label>
+      <select id="rand_mode">
+        <option value="avg">平均(1.0)</option>
+        <option value="max">最大(1.099)</option>
+      </select>
+      <label for="class_affinity">クラス相性</label>
+      <select id="class_affinity">
+        <option value="0.5">不利(0.5)</option>
+        <option value="1" selected>等倍(1.0)</option>
+        <option value="1.5">狂/AE/Pretender等(1.5)</option>
+        <option value="2">有利(2.0)</option>
+      </select>
+
+      <label style="display:flex; align-items:center; gap:8px; margin-top:10px;">
+        <input type="checkbox" id="first_buster">
+        1stバスター（通常攻撃のみ +0.5）
+      </label>
+
+    </div>
+
+    <div class="card">
+      <h3>バフ（%で入力）</h3>
+      <label for="atk_up">攻撃力バフ（%）</label>
+      <input id="atk_up" type="number" value="0" step="10">
+      <label for="def_down">防御デバフ（%）</label>
+      <input id="def_down" type="number" value="0" step="10">
+
+      <label for="color_up">カード性能アップ（%）</label>
+      <input id="color_up" type="number" value="0" step="10">
+      <label for="color_resist">カード耐性（敵側%）</label>
+      <input id="color_resist" type="number" value="0" step="10">
+
+      <label for="trait">特攻（%）</label>
+      <input id="trait" type="number" value="0" step="10">
+      <label for="target_taken">対象被ダメ（%）</label>
+      <input id="target_taken" type="number" value="0" step="10">
+
+      <label for="power_up">威力アップ（%）</label>
+      <input id="power_up" type="number" value="0" step="10">
+      <label for="special_resist">特殊耐性（%）</label>
+      <input id="special_resist" type="number" value="0" step="10">
+    </div>
+  </div>
+
+  <p>
+    <button id="calc_btn">必要ATKを計算（切り上げ）</button>
+    <small>※上下キーは10%刻み、端数は切り上げ</small>
+  </p>
+
+  <div class="result" id="result"></div>
+  <div id="debug" style="margin-top:8px;color:#555;white-space:pre-wrap;"></div>
+
+  <script src="/static/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+:root {
+  --bg: #0b0f14;
+  --card: #121821;
+  --accent: #6ea8fe;
+  --text: #e6eef8;
+  --muted: #9fb3c8;
+  --border: #203044;
+  --btn: #1e2a3a;
+  --btn-hover: #2a3b52;
+}
+
+html, body {
+  background: linear-gradient(180deg, #0b0f14 0%, #0c1118 100%);
+  color: var(--text);
+}
+
+h1 { font-size: 20px; letter-spacing: .3px; }
+h3 { margin: 6px 0 12px; color: var(--accent); font-size: 15px; }
+
+.card {
+  background: linear-gradient(180deg, var(--card), #0f1620);
+  border: 1px solid var(--border) !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+label { color: var(--muted); font-size: 12px; }
+input, select, button {
+  background: #0e1520;
+  border: 1px solid #23364f;
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;
+  outline: none;
+}
+input:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(110,168,254,.15);
+}
+
+#tabs button {
+  background: var(--btn);
+  color: var(--text);
+}
+#tabs button:hover { background: var(--btn-hover); }
+#tabs button[data-tab="crit"] { border-color: #f86b6b; }
+#tabs button[data-tab="np"]   { border-color: #6ea8fe; }
+
+#calc_btn {
+  background: linear-gradient(180deg, #26466e, #19314f);
+  border: 1px solid #2e507d;
+  padding: 10px 16px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+#calc_btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.result {
+  font-size: 18px;
+  padding: 10px 12px;
+  background: #0e1825;
+  border: 1px solid #22334a;
+  border-radius: 10px;
+}
