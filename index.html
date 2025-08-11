@@ -34,22 +34,46 @@
       <option value="Q">Quick</option>
     </select>
 
-    <label>クリティカル固定（常にON）</label>
-    <input type="checkbox" id="is_crit_crit" checked disabled>
-
-    <label for="crit_dmg_crit">クリ威力（%）</label>
-    <input id="crit_dmg_crit" type="number" value="0" step="10">
+    <label>クリティカル</label>
+    <input type="checkbox" id="is_crit_crit" >
   </div>
 
   <!-- 宝具専用 -->
   <div id="panel-np" class="card" style="display:none;">
     <h3>宝具専用</h3>
+
     <label for="card_type_np">カード色</label>
     <select id="card_type_np">
       <option value="B">Buster</option>
       <option value="A">Arts</option>
       <option value="Q">Quick</option>
     </select>
+
+    <label for="np_target_np">対象</label>
+    <select id="np_target_np">
+      <option value="ST">単体</option>
+      <option value="AOE">全体</option>
+    </select>
+
+    <label style="display:flex;align-items:center;gap:8px;">
+      <input type="checkbox" id="np_strengthened_np">
+      強化済み（宝具強化後）
+    </label>
+
+    <label for="np_level_np">宝具レベル</label>
+    <select id="np_level_np">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5" selected>5</option>
+    </select>
+
+    <label style="display:flex;align-items:center;gap:8px;margin-top:6px;">
+      <input type="checkbox" id="np_mv_manual">
+      手動で倍率を編集する
+      <button type="button" id="np_defaults_edit" class="chip" style="margin-left:8px;">倍率セット編集</button>
+    </label>
 
     <label for="np_mv_pct_np">宝具倍率（%）例: 550</label>
     <input id="np_mv_pct_np" type="number" value="550">
@@ -97,23 +121,71 @@
       <h3>バフ（%で入力）</h3>
       <label for="atk_up">攻撃力バフ（%）</label>
       <input id="atk_up" type="number" value="0" step="10">
-      <label for="def_down">防御デバフ（%）</label>
-      <input id="def_down" type="number" value="0" step="10">
+        <div class="quick-row">
+          <button type="button" class="img-btn" data-inc="atk_up:20" >
+            <img src="static/buff_image/atk20.webp">
+          </button>
+          <button type="button" class="img-btn" data-inc="atk_up:30" >
+            <img src="static/buff_image/atk30.webp">
+          </button>
+          <button type="button" class="img-btn" data-inc="atk_up:40" >
+            <img src="static/buff_image/atk40.webp">
+          </button>
+          <button type="button" class="img-btn" data-inc="atk_up:50" >
+            <img src="static/buff_image/atk50.webp">
+          </button>
+          <button type="button" data-clear="atk_up" class="img-btn">
+            <img src="/static/buff_image/clear.webp" alt="クリア">
+          </button>
+        </div>
 
       <label for="color_up">カード性能アップ（%）</label>
       <input id="color_up" type="number" value="0" step="10">
-      <label for="color_resist">カード耐性（敵側%）</label>
-      <input id="color_resist" type="number" value="0" step="10">
-
-      <label for="trait">特攻（%）</label>
-      <input id="trait" type="number" value="0" step="10">
-      <label for="target_taken">対象被ダメ（%）</label>
+        <div class="quick-row">
+          <button type="button" data-inc="color_up:20" class="img-btn">
+            <img src="/static/buff_image/B20.webp" alt="カード性能20%アップ">
+          </button>
+          <button type="button" data-inc="color_up:30" class="img-btn">
+            <img src="/static/buff_image/B30.webp" alt="カード性能30%アップ">
+          </button>
+          <button type="button" data-inc="color_up:40" class="img-btn">
+            <img src="/static/buff_image/B40.webp" alt="カード性能40%アップ">
+          </button>
+          <button type="button" data-inc="color_up:50" class="img-btn">
+            <img src="/static/buff_image/B50.webp" alt="カード性能40%アップ">
+          </button>
+          <button type="button" data-clear="color_up" class="img-btn">
+            <img src="/static/buff_image/clear.webp" alt="クリア">
+          </button>
+        </div>
+      <label for="crit_dmg_crit">クリ威力（%）</label>
+      <input id="crit_dmg_crit" type="number" value="0" step="10">
+      <div id="quick-row">
+        <button type="button" data-inc="crit_dmg_crit:20" class="img-btn">
+          <img src="/static/buff_image/C20.webp" alt="クリ20アップ">
+        </button>
+        <button type="button" data-inc="crit_dmg_crit:30" class="img-btn">
+          <img src="/static/buff_image/C30.webp" alt="クリ30アップ">
+        </button>
+        <button type="button" data-inc="crit_dmg_crit:50" class="img-btn">
+          <img src="/static/buff_image/C50.webp" alt="クリ50アップ">
+        </button>
+        <button type="button" data-inc="crit_dmg_crit:100" class="img-btn">
+          <img src="/static/buff_image/C100.webp" alt="クリ100アップ">
+        </button>
+        <button type="button" data-clear="crit_dmg_crit" class="img-btn">
+          <img src="/static/buff_image/clear.webp" alt="クリア">
+        </button>
+      </div>
+      <label for="trait">特攻（%）</label></label>
       <input id="target_taken" type="number" value="0" step="10">
 
       <label for="power_up">威力アップ（%）</label>
       <input id="power_up" type="number" value="0" step="10">
+
       <label for="special_resist">特殊耐性（%）</label>
       <input id="special_resist" type="number" value="0" step="10">
+
     </div>
   </div>
 
@@ -124,7 +196,61 @@
 
   <div class="result" id="result"></div>
   <div id="debug" style="margin-top:8px;color:#555;white-space:pre-wrap;"></div>
+  <!-- サーヴァント選択とレンジ -->
+  <div class="card">
+    <h3>サーヴァント成長とダメージ推移</h3>
 
-  <script src="/static/main.js" defer></script>
+    <label for="svt_select">サーヴァント</label>
+    <select id="svt_select"></select>
+
+    <div style="margin-top:8px;">
+      <small id="svt_info">基礎ATK: -, Lv100: -, Lv120: -</small>
+    </div>
+
+    <div style="display:flex; gap:12px; margin-top:10px;">
+      <div>
+        <label for="atk_min">グラフ最小ATK</label>
+        <input id="atk_min" type="number" value="1000" step="100">
+      </div>
+      <div>
+        <label for="atk_max">グラフ最大ATK</label>
+        <input id="atk_max" type="number" value="14000" step="100">
+      </div>
+      <div>
+        <label for="atk_step">刻み幅</label>
+        <input id="atk_step" type="number" value="200" step="50">
+      </div>
+    </div>
+
+    <div style="margin-top:12px;">
+      <canvas id="atkChart" height="220"></canvas>
+    </div>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="/static/data/np_multipliers.js" defer></script>  
+<script src="/static/state.js" defer></script>
+<script src="/static/utils.js" defer></script>
+
+<script src="/static/np_defaults.js" defer></script>
+<script src="/static/load_servantCSV.js" defer></script>
+
+<script src="/static/init_servantUI.js" defer></script>   <!-- 定義を先に -->
+<script src="/static/chart.js" defer></script>
+<script src="/static/activate_tab.js" defer></script>
+<script src="/static/api.js" defer></script>
+<script src="/static/calc.js" defer></script>
+<script src="/static/preSet.js" defer></script>
+<script src="/static/wireQuickInc.js" defer></script>
+<script src="/static/wireEvents.js" defer></script>       <!-- ここで呼ぶ -->
+<script src="/static/initUI.js" defer></script>
+<script src="/static/main.js" defer></script>
+
+
 </body>
 </html>
+
+      <input id="trait" type="number" value="0" step="10">
+
+      <label for="target_taken">対象被ダメ（%）

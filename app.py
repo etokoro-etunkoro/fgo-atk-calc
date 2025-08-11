@@ -22,6 +22,15 @@ def pct(x):
         return float(x) / 100.0
     except:
         return 0.0
+    
+def as_bool(x):
+    if isinstance(x, bool):
+        return x
+    if isinstance(x, (int, float)):
+        return x != 0
+    if isinstance(x, str):
+        return x.strip().lower() in ("1", "true", "on", "yes")
+    return bool(x)
 
 @app.post("/api/calc")
 def api_calc():
@@ -41,7 +50,7 @@ def api_calc():
     # 種別
     attack_type = d.get("attack_type", "normal")  # "normal" or "np"
     card_type   = d.get("card_type", "B")         # "B"|"A"|"Q"
-    is_crit     = bool(d.get("is_crit", False))
+    is_crit     = as_bool(d.get("is_crit", False))
 
     # 実数補正（必要ならUIに後で追加）
     class_corr     = float(d.get("class_correction", 1.0))
@@ -51,9 +60,9 @@ def api_calc():
 
     # %系（サーバで小数化）
     atk_up         = pct(d.get("atk_up"))
-    def_down       = pct(d.get("def_down"))
+#    def_down       = pct(d.get("def_down"))
     color_up       = pct(d.get("color_up"))
-    color_resist   = pct(d.get("color_resist"))
+#    color_resist   = pct(d.get("color_resist"))
     trait          = pct(d.get("trait"))
     target_taken   = pct(d.get("target_taken"))
     power_up       = pct(d.get("power_up"))
@@ -67,9 +76,10 @@ def api_calc():
     color_coeff = {"B": 1.5, "A": 1.0, "Q": 0.8}.get(card_type, 1.0)
 
     # カード火力（位置/EX無し）
-    card_perf  = max(0.0, 1.0 + color_up - color_resist)
+    card_perf  = max(0.0, 1.0 + color_up)
     card_power = color_coeff * card_perf
-
+    if attack_type == "normal" and first_buster:
+        card_power += 0.5
     # 1stBは通常攻撃のみ有効（宝具には乗らない）
     if attack_type == "normal" and first_buster:
         card_power += 0.5
@@ -87,8 +97,7 @@ def api_calc():
 
     # 攻撃変化（攻バフは-100%まで、敵防デバフは合算100%まで。相殺して0未満は0）
     tmp_atk = max(atk_up, -1.0)
-    tmp_def = min(def_down, 1.0)
-    atk_change = 1.0 + tmp_atk + tmp_def
+    atk_change = 1.0 + tmp_atk
     if atk_change < 0:
         atk_change = 0.0
 
@@ -131,7 +140,7 @@ def api_calc():
 
     if A <= 0:
         response.status = 400
-        return {"error": "総合倍率Aが0以下です。入力を見直してください。"}
+        return {"error": "総合倍率Aが0未満になっちゃう。"}
 
     required_atk = math.ceil((target - fixed_damage) / A - sub_add)
     return {
