@@ -20,7 +20,7 @@ function wireEvents() {
   // グラフ用のATKレンジ変更 → 再描画（直近の計算値があるときだけ）
   ["atk_min","atk_max","atk_step"].forEach(id => {
     document.getElementById(id)?.addEventListener("change", () => {
-      if (window.__lastA) window.renderAtkChart(window.__lastA, window.__lastSub, window.__lastFixed);
+      if (window.__lastA) window.renderAtkChart(window.__lastA, window.__lastSub, window.__lastFixed, window.__lv120Atk);
     });
   });
 }

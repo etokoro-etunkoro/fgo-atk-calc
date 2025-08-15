@@ -89,7 +89,7 @@
     <div class="card">
       <h3>目標と加算</h3>
       <label for="target_damage">目標ダメージ</label>
-      <input id="target_damage" type="number" value="200000">
+      <input id="target_damage" type="number" value="50000" step="5000">
       <label for="fixed_damage">固定ダメージ合計（Bチェイン等）</label>
       <input id="fixed_damage" type="number" value="0">
       <label for="ce_atk">礼装ATK</label>
@@ -227,7 +227,6 @@
     </div>
   </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="/static/data/np_multipliers.js" defer></script>  
 <script src="/static/state.js" defer></script>
@@ -237,7 +236,19 @@
 <script src="/static/load_servantCSV.js" defer></script>
 
 <script src="/static/init_servantUI.js" defer></script>   <!-- 定義を先に -->
+<script src="/static/auto_xRange.js" deger></script>
+<script src="/static/auto_yRange.js" deger></script>
+<!-- Chart.js UMD（グローバルに Chart を生やす版） -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+
+<!-- annotation UMD（グローバルに ChartAnnotation を生やす版） -->
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@4.0.1/dist/chartjs-plugin-annotation.min.js" defer></script>
+
+<!-- あなたの描画コード -->
 <script src="/static/chart.js" defer></script>
+
+
+
 <script src="/static/activate_tab.js" defer></script>
 <script src="/static/api.js" defer></script>
 <script src="/static/calc.js" defer></script>

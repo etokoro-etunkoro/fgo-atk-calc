@@ -69,7 +69,7 @@ input:focus, select:focus {
   display: flex; gap: 6px; margin: 4px 0 10px; flex-wrap: wrap;
 }
 .quick-row .chip {
-  background: #0f1b2a;
+  background: #ffffff;
   border: 1px solid #23364f;
   color: #e6eef8;
   border-radius: 999px;

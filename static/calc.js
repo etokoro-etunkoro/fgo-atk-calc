@@ -110,7 +110,7 @@ sub(礼装+足跡)=${det.sub_add}`;
     window.__lastA    = data.A;
     window.__lastSub  = det.sub_add;
     window.__lastFixed= getNum("fixed_damage");
-    window.renderAtkChart(data.A, det.sub_add, getNum("fixed_damage"));
+    window.renderAtkChart(data.A, det.sub_add, getNum("fixed_damage"), window.__lv120Atk);
 
   } catch (e) {
     document.getElementById("result").textContent = "計算エラー";
